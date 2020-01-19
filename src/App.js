@@ -1,25 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
+
+import Dashboard from './pages/Dashboard/Dashboard';
+import SignUp from './pages/SignUp/SignUp';
+import SignIn from './pages/SignIn/SignIn';
 import './App.css';
+import { useAuth } from './hooks/useAuthBl';
 
 function App() {
+
+  const { jwt } = useAuth();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+      <Switch>
+        <Route path='/sign-up' component={SignUp}/>
+        <Route path='/sign-in' component={SignIn}/>
+        <Route path='/dashboard' component={Dashboard}/>
+        <Route path='/users' component={Dashboard}/>
+        <Redirect path="*" to={jwt ? '/dashboard' : 'sign-in'}/>
+      </Switch>
   );
 }
 
