@@ -19,7 +19,15 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Dashboard"/>
     </ListItem>
-    <NavLink to='users'>
+    <NavLink to='/books'>
+      <ListItem button>
+        <ListItemIcon>
+          <ShoppingCartIcon/>
+        </ListItemIcon>
+        <ListItemText primary="Books"/>
+      </ListItem>
+    </NavLink>
+    <NavLink to='/users'>
       <ListItem button>
         <ListItemIcon>
           <ShoppingCartIcon/>
