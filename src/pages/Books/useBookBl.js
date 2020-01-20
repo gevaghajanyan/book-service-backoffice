@@ -8,13 +8,21 @@ export const useBookBl = props => {
     data: [],
   });
 
+  const [params, setParams] = useState({
+    page: 0,
+    count: 10,
+  });
+
+
   useEffect(() => {
-    httpService.get(getBooksUrl())
+    httpService.get(getBooksUrl(params))
       .then(({ data }) => setBooks(data));
-  }, []);
+  }, [params]);
 
   return {
     books,
+    params,
+    setParams,
     ...props,
   };
 };

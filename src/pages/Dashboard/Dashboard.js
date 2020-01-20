@@ -86,8 +86,10 @@ const useStyles = makeStyles(theme => ({
     overflow: 'auto',
   },
   container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+    width: '100%',
+    maxWidth: '100%',
   },
   paper: {
     padding: theme.spacing(2),
@@ -109,8 +111,7 @@ export default function Dashboard() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
+  
   return (
     <div className={classes.root}>
       <CssBaseline/>

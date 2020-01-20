@@ -19,6 +19,10 @@ const DataTable = memo(({
   children,
   totalCount,
   renderColumn,
+  onChangePage,
+  rowsPerPage,
+  page,
+  onChangeRowsPerPage,
   ...props
 }) => {
   return (
@@ -34,7 +38,7 @@ const DataTable = memo(({
         </TableHead>
         <TableBody>
           {rows.map(row => (
-            <TableRow>
+            <TableRow key={row.id}>
               {children(row)}
             </TableRow>
           ))}
@@ -42,9 +46,15 @@ const DataTable = memo(({
         {tableFooter}
         {totalCount && (
           <TableFooter>
-            <TablePagination
-              count={totalCount}
-            />
+            <TableRow>
+              <TablePagination
+                onChangeRowsPerPage={onChangeRowsPerPage}
+                onChangePage={onChangePage}
+                count={totalCount}
+                rowsPerPage={rowsPerPage}
+                page={page}
+              />
+            </TableRow>
           </TableFooter>
         )}
       </Table>
@@ -58,12 +68,16 @@ DataTable.propTypes = {
   renderColumn: PropTypes.func,
   className: PropTypes.string,
   totalCount: PropTypes.number,
+  rowsPerPage: PropTypes.number,
+  page: PropTypes.number,
 };
 
 DataTable.defaultProps = {
   className: '',
   tableHeader: null,
-  renderColumn: column => (<TableCell>{column.children}</TableCell>),
+  rowsPerPage: 10,
+  page: 0,
+  renderColumn: column => (<TableCell key={column.name}>{column.name}</TableCell>),
 };
 
 export default DataTable;

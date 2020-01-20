@@ -23,16 +23,18 @@ export const useAuth = () => {
   const history = useHistory();
   useEffect(() => {
     if (jwt) {
-      history.push('/dashboard');
+      if (history.location.pathname === '/sign-in') {
+        history.push('/dashboard');
+      }
       HttpService.token = jwt;
-      document.cookie = `jwt=${jwt}`
+      document.cookie = `jwt=${jwt}`;
     } else {
-      history.push('/sign-in')
+      history.push('/sign-in');
     }
   }, [jwt]);
 
   return {
     jwt,
-    setJwt
-  }
+    setJwt,
+  };
 };
