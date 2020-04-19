@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import moment from 'moment';
 import { TableCell } from '@material-ui/core';
 
 const BookRow = memo(({
@@ -17,8 +18,8 @@ const BookRow = memo(({
       <TableCell>{title}</TableCell>
       <TableCell>{authors?.join(' / ')}</TableCell>
       <TableCell>{rate}</TableCell>
-      <TableCell>{categories?.join(' / ')}</TableCell>
-      <TableCell>{new Date(published).toLocaleDateString().replace('/\//g', '-')}</TableCell>
+      <TableCell>{categories?.map(({ name }) => name).join(' / ')}</TableCell>
+      <TableCell>{moment(published).format('DD-MM-YYYY')}</TableCell>
     </>
   );
 });

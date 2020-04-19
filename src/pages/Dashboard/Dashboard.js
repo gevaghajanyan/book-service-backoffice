@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -14,96 +14,20 @@ import Container from '@material-ui/core/Container';
 import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import LinearProgress from '@material-ui/core/LinearProgress';
+
 import { mainListItems, secondaryListItems } from './listItems';
-import Users from '../Users/Users';
-import Books from '../Books/Books';
+import { useDashboardStyles } from './useDashboardStyles';
 
-const drawerWidth = 240;
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-  },
-  toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
-  },
-  toolbarIcon: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginRight: 36,
-  },
-  menuButtonHidden: {
-    display: 'none',
-  },
-  title: {
-    flexGrow: 1,
-  },
-  drawerPaper: {
-    position: 'relative',
-    whiteSpace: 'nowrap',
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerPaperClose: {
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    width: theme.spacing(7),
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9),
-    },
-  },
-  appBarSpacer: theme.mixins.toolbar,
-  content: {
-    flexGrow: 1,
-    height: '100vh',
-    overflow: 'auto',
-  },
-  container: {
-    paddingTop: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
-    width: '100%',
-    maxWidth: '100%',
-  },
-  paper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
-  },
-  fixedHeight: {
-    height: 240,
-  },
-}));
+const Users = lazy(() => import('../Users/Users'));
+const Books = lazy(() => import('../Books/Books'));
+const Categories = lazy(() => import('../Categories/Categories'));
+const Book = lazy(() => import('../Book/Book'));
+const EditBook = lazy(() => import('../EditBook/EditBook'));
+const AddBook = lazy(() => import('../AddBook/AddBook'));
 
 export default function Dashboard() {
-  const classes = useStyles();
+  const classes = useDashboardStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -111,7 +35,7 @@ export default function Dashboard() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  
+
   return (
     <div className={classes.root}>
       <CssBaseline/>
@@ -157,9 +81,15 @@ export default function Dashboard() {
         <div className={classes.appBarSpacer}/>
         <Container maxWidth="lg" className={classes.container}>
           <Switch>
-            <Route path='/books' component={Books}/>
-            <Route path='/users' component={Users}/>
-            <Route path='/' component={null}/>
+            <Suspense fallback={(<LinearProgress />)}>
+              <Route path='/books' component={Books}/>
+              <Route path='/users' component={Users}/>
+              <Route path='/categories' component={Categories}/>
+              <Route path='/book/add' component={AddBook}/>
+              <Route exact path='/book/:bookId' component={Book}/>
+              <Route exact path='/book/:bookId/edit' component={EditBook}/>
+              <Route path='/' component={null}/>
+            </Suspense>
           </Switch>
         </Container>
       </main>

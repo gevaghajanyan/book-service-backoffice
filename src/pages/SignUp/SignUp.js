@@ -62,7 +62,6 @@ export default function SignUp(props) {
                 required
                 fullWidth
                 label="First Name"
-                value='Gevorg'
                 autoFocus
               />
             </Grid>
@@ -73,7 +72,6 @@ export default function SignUp(props) {
                 fullWidth
                 label="Last Name"
                 name="lastName"
-                value='Aghajanyan'
                 autoComplete="lastName"
               />
             </Grid>
@@ -85,7 +83,6 @@ export default function SignUp(props) {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                value='g.aghajanyan1995@gmail.com'
               />
             </Grid>
             <Grid item xs={12}>
@@ -96,7 +93,6 @@ export default function SignUp(props) {
                 name="password"
                 label="Password"
                 type="password"
-                value='password'
                 autoComplete="current-password"
               />
             </Grid>

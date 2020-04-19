@@ -19,6 +19,10 @@ function App() {
         '/dashboard',
         '/users',
         '/books',
+        '/categories',
+        '/book/add',
+        '/book/:bookId',
+        '/book/:bookId/edit',
       ]} component={Dashboard}/>
       <Redirect path="*" to={jwt ? '/dashboard' : 'sign-in'}/>
     </Switch>

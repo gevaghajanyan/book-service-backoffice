@@ -23,6 +23,7 @@ const DataTable = memo(({
   rowsPerPage,
   page,
   onChangeRowsPerPage,
+  onRowClick,
   ...props
 }) => {
   return (
@@ -38,13 +39,17 @@ const DataTable = memo(({
         </TableHead>
         <TableBody>
           {rows.map(row => (
-            <TableRow key={row.id}>
+            <TableRow
+              key={row.id}
+              onClick={() => onRowClick(row)}
+              hover
+            >
               {children(row)}
             </TableRow>
           ))}
         </TableBody>
         {tableFooter}
-        {totalCount && (
+        {!!totalCount && (
           <TableFooter>
             <TableRow>
               <TablePagination
@@ -66,6 +71,7 @@ DataTable.propTypes = {
   rows: PropTypes.array.isRequired,
   columns: PropTypes.array.isRequired,
   renderColumn: PropTypes.func,
+  onRowClick: PropTypes.func,
   className: PropTypes.string,
   totalCount: PropTypes.number,
   rowsPerPage: PropTypes.number,
@@ -75,9 +81,11 @@ DataTable.propTypes = {
 DataTable.defaultProps = {
   className: '',
   tableHeader: null,
+  tableFooter: null,
   rowsPerPage: 10,
   page: 0,
   renderColumn: column => (<TableCell key={column.name}>{column.name}</TableCell>),
+  onRowClick: () => {}
 };
 
 export default DataTable;

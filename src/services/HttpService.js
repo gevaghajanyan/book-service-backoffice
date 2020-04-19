@@ -4,43 +4,47 @@ export class HttpService {
   _request(
     url,
     method,
-    option
+    option,
   ) {
     return fetch(url, {
       method,
       mode: 'cors',
-      ...option
+      ...option,
     }).then(res => {
       if (res.status) {
         return res.json();
       }
-      return res.ok
-    })
+      return res.ok;
+    });
   }
 
   get(url) {
-    return this._request(url, 'GET', null)
+    return this._request(url, 'GET', null);
   }
 
   post(url, body) {
     return this._request(url, 'POST', {
       headers: HttpService.defaultHeaders(),
-      body: JSON.stringify(body)
-    })
+      body: JSON.stringify(body),
+    });
+  }
+
+  delete(url) {
+    return this._request(url, 'DELETE', null);
   }
 
   static defaultHeaders() {
     const headers = {
       'Content-Type': 'application/json',
       'Accept-Charset': 'utf-8',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
     };
 
     if (HttpService.token) {
-      headers['Authorization'] = `Bearer ${HttpService.token}`
+      headers['Authorization'] = `Bearer ${HttpService.token}`;
     }
 
-    return new Headers(headers)
+    return new Headers(headers);
   }
 }
 
