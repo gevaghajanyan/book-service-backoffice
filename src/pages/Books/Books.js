@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory, NavLink } from 'react-router-dom';
-import { useBookBl } from './useBookBl';
+import { useBooksBl } from './useBooksBl';
 import DataTable from '../../components/DataTable/DataTable';
 import BookRow from '../../components/book/BookRow/BookRow';
 import Box from '@material-ui/core/Box';
@@ -18,7 +18,8 @@ const Books = ({ ...props }) => {
       count,
     },
     setParams,
-  } = useBookBl(props);
+    deleteBook,
+  } = useBooksBl(props);
   const history = useHistory();
 
   return (
@@ -52,8 +53,9 @@ const Books = ({ ...props }) => {
           { name: 'Rate' },
           { name: 'Categories' },
           { name: 'Published' },
+          { name: 'actions' },
         ]}
-        onRowClick={({ id }) => history.push(`/book/${id}`)}
+        onRowClick={({ _id: id }) => history.push(`/book/${id}`)}
         rows={books}
         page={page}
         rowsPerPage={count}
@@ -67,7 +69,11 @@ const Books = ({ ...props }) => {
         })}
         totalCount={totalCount}
       >
-        {book => (<BookRow key={book.id} {...book}/>)}
+        {book => (<BookRow
+          key={book._id}
+          {...book}
+          onDelete={deleteBook}
+        />)}
       </DataTable>
     </>
   );

@@ -1,8 +1,10 @@
 import React, { memo } from 'react';
 import moment from 'moment';
-import { TableCell } from '@material-ui/core';
+import { TableCell, IconButton } from '@material-ui/core';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 const BookRow = memo(({
+  _id: id,
   authors,
   imageUrl,
   title,
@@ -11,7 +13,7 @@ const BookRow = memo(({
   pages,
   country,
   published,
-  id,
+  onDelete,
 }) => {
   return (
     <>
@@ -20,6 +22,15 @@ const BookRow = memo(({
       <TableCell>{rate}</TableCell>
       <TableCell>{categories?.map(({ name }) => name).join(' / ')}</TableCell>
       <TableCell>{moment(published).format('DD-MM-YYYY')}</TableCell>
+      <TableCell>
+        <IconButton
+          onClick={event => onDelete(event, id)}
+        >
+          <DeleteForeverIcon
+            color='secondary'
+          />
+        </IconButton>
+      </TableCell>
     </>
   );
 });

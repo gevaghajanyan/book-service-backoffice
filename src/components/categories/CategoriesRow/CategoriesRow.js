@@ -18,7 +18,9 @@ const CategoriesRow = memo(({
         <IconButton
           onClick={event => onDelete(event, id)}
         >
-          <DeleteForeverIcon/>
+          <DeleteForeverIcon
+            color='secondary'
+          />
         </IconButton>
       </TableCell>
     </>

@@ -1,3 +1,5 @@
+import { instanceOf } from 'prop-types';
+
 export class HttpService {
   token = null;
 
@@ -12,9 +14,12 @@ export class HttpService {
       ...option,
     }).then(res => {
       if (res.status) {
-        return res.json();
+        return res?.json();
       }
       return res.ok;
+    }).catch(e => {
+      console.error(e)
+      return e
     });
   }
 
@@ -22,10 +27,11 @@ export class HttpService {
     return this._request(url, 'GET', null);
   }
 
-  post(url, body) {
+  post(url, body, options) {
     return this._request(url, 'POST', {
-      headers: HttpService.defaultHeaders(),
+      headers: HttpService.defaultHeaders(body),
       body: JSON.stringify(body),
+      ...options,
     });
   }
 
@@ -33,12 +39,15 @@ export class HttpService {
     return this._request(url, 'DELETE', null);
   }
 
-  static defaultHeaders() {
-    const headers = {
-      'Content-Type': 'application/json',
-      'Accept-Charset': 'utf-8',
-      'Accept': 'application/json',
-    };
+  static defaultHeaders(body) {
+    let headers = {};
+    if (!(body instanceof FormData)) {
+      headers = {
+        'Content-Type': 'application/json',
+        'Accept-Charset': 'utf-8',
+        'Accept': 'application/json',
+      };
+    }
 
     if (HttpService.token) {
       headers['Authorization'] = `Bearer ${HttpService.token}`;
