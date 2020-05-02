@@ -1,8 +1,13 @@
-import { getFormValues } from '../../helpers/formHelpers';
+import { useHistory } from 'react-router-dom';
+
 import httpService from '../../services/HttpService';
+import { getFormValues } from '../../helpers/formHelpers';
+import { errorToast } from '../../helpers/errorToast';
 import { signUpUrl } from '../../core/urls';
 
 export const useSignUpBl = (props) => {
+  const history = useHistory();
+
   const signUp = event => {
     event.persist();
     event.preventDefault();
@@ -10,16 +15,16 @@ export const useSignUpBl = (props) => {
       firstName: '',
       lastName: '',
       password: '',
-      email: ''
+      email: '',
     });
 
     httpService.post(signUpUrl, data).then(data => {
-      console.log(data, 'data');
-    }).catch(console.error)
+      history.push('/sign-in');
+    }).catch(errorToast);
   };
 
   return {
     signUp,
-    ...props
-  }
+    ...props,
+  };
 };

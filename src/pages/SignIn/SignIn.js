@@ -62,7 +62,6 @@ export default function SignIn(props) {
             label="Email Address"
             name="email"
             autoComplete="email"
-            value='g.aghajanyan1995@gmail.com'
             autoFocus
           />
           <TextField
@@ -73,7 +72,6 @@ export default function SignIn(props) {
             name="password"
             label="Password"
             type="password"
-            value="password"
             id="password"
             autoComplete="current-password"
           />

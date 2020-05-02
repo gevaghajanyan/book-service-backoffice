@@ -55,7 +55,7 @@ const Books = ({ ...props }) => {
           { name: 'Published' },
           { name: 'actions' },
         ]}
-        onRowClick={({ _id: id }) => history.push(`/book/${id}`)}
+        onRowClick={({ _id: id }) => history.push(`/book/${id}/details`)}
         rows={books}
         page={page}
         rowsPerPage={count}

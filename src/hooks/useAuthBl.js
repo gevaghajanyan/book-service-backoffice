@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { HttpService } from '../services/HttpService';
+import httpService, { HttpService } from '../services/HttpService';
 
 export const useAuth = () => {
   const getCookie = (cname) => {

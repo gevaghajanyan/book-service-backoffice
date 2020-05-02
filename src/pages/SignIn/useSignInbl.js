@@ -1,9 +1,8 @@
-import { useHistory } from 'react-router-dom';
-
-import { getFormValues } from '../../helpers/formHelpers';
 import httpService from '../../services/HttpService';
-import { signInUrl } from '../../core/urls';
 import { useAuth } from '../../hooks/useAuthBl';
+import { getFormValues } from '../../helpers/formHelpers';
+import { errorToast } from '../../helpers/errorToast';
+import { signInUrl } from '../../core/urls';
 
 export const useSignInBl = props => {
   const { setJwt } = useAuth();
@@ -12,18 +11,19 @@ export const useSignInBl = props => {
     event.preventDefault();
     const data = getFormValues(event, {
       email: '',
-      password: ''
+      password: '',
     });
 
-    httpService.post(signInUrl, data).then(({ data }) => {
-      if (data.hasOwnProperty('token')) {
-        setJwt(data.token);
-      }
-    });
+    httpService.post(signInUrl, data)
+      .then(({ data }) => {
+        if (data.hasOwnProperty('accessToken')) {
+          setJwt(data.accessToken);
+        }
+      }).catch(errorToast);
   };
 
   return {
     signIn,
-    ...props
-  }
+    ...props,
+  };
 };

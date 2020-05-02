@@ -1,7 +1,5 @@
-import { instanceOf } from 'prop-types';
-
 export class HttpService {
-  token = null;
+  static token = null;
 
   _request(
     url,
@@ -13,21 +11,38 @@ export class HttpService {
       mode: 'cors',
       ...option,
     }).then(res => {
-      if (res.status) {
+      if (res.ok) {
         return res?.json();
+      } else {
+        return res?.json().then(({
+          statusCode,
+          timestamp,
+          path,
+          message,
+        }) => {
+          const error = JSON.stringify({
+            statusCode,
+            timestamp,
+            path,
+            message
+          });
+          throw new Error(error);
+        });
       }
-      return res.ok;
-    }).catch(e => {
-      console.error(e)
-      return e
     });
   }
 
   get(url) {
-    return this._request(url, 'GET', null);
+    return this._request(url, 'GET', {
+      headers: HttpService.defaultHeaders()
+    });
   }
 
-  post(url, body, options) {
+  post(
+    url,
+    body,
+    options,
+  ) {
     return this._request(url, 'POST', {
       headers: HttpService.defaultHeaders(body),
       body: JSON.stringify(body),

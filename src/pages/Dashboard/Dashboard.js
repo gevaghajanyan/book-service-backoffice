@@ -74,8 +74,6 @@ export default function Dashboard() {
         </div>
         <Divider/>
         <List>{mainListItems}</List>
-        <Divider/>
-        <List>{secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer}/>
@@ -85,8 +83,8 @@ export default function Dashboard() {
               <Route path='/books' component={Books}/>
               <Route path='/users' component={Users}/>
               <Route path='/categories' component={Categories}/>
-              <Route path='/book/add' component={AddBook}/>
-              <Route exact path='/book/:bookId' component={Book}/>
+              <Route exact path='/book/add' component={AddBook}/>
+              <Route exact path='/book/:bookId/details' component={Book}/>
               <Route exact path='/book/:bookId/edit' component={EditBook}/>
               <Route path='/' component={null}/>
             </Suspense>
