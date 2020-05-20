@@ -7,6 +7,11 @@ import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Grid from '@material-ui/core/Grid';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors';
@@ -17,36 +22,13 @@ import EditIcon from '@material-ui/icons/Edit';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 
 import { useBookBl } from './useBookBl';
+import { useBookStyles } from './useBookStyles';
 
 import { getFileUrl } from '../../core/urls';
 
-
-const useStyles = makeStyles(theme => ({
-  card: {
-    maxWidth: 600,
-  },
-  media: {
-    width: 'auto',
-    height: 300,
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-  avatar: {
-    backgroundColor: red[500],
-  },
-}));
-
 export default function Book(props) {
   const { book } = useBookBl(props);
-  const classes = useStyles();
+  const classes = useBookStyles();
 
   if (!book) return null;
 
@@ -57,6 +39,8 @@ export default function Book(props) {
     published,
     rate,
     categories,
+    shortDescription,
+    longDescription,
     file,
     image,
   } = book;
@@ -66,7 +50,7 @@ export default function Book(props) {
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            B
+            {authors && authors[0][0]}
           </Avatar>
         }
         action={
@@ -77,11 +61,45 @@ export default function Book(props) {
         title={title}
         subheader={moment(published).format('MMMM Do YYYY')}
       />
-      <img
-        className={classes.media}
-        src={getFileUrl(image)}
-        title={title}
-      />
+      <Grid container>
+        <Grid item xs={2} p={2}>
+          <img
+            className={classes.media}
+            src={getFileUrl(image)}
+            title={title}
+          />
+        </Grid>
+        <Grid item xs={10}>
+          <ExpansionPanel>
+            <ExpansionPanelSummary
+              expandIcon={<ExpandMoreIcon/>}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography className={classes.heading}>Short Description</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              <Typography>
+                {shortDescription}
+              </Typography>
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+          <ExpansionPanel>
+            <ExpansionPanelSummary
+              expandIcon={<ExpandMoreIcon/>}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography className={classes.heading}>Long Description</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              <Typography>
+                <div dangerouslySetInnerHTML={{ __html: longDescription }}/>
+              </Typography>
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+        </Grid>
+      </Grid>
       <CardContent>
         {description && description.map(desc => (
           <Typography variant="body2" color="textSecondary" component="p">
@@ -100,9 +118,6 @@ export default function Book(props) {
             <CloudDownloadIcon/>
           </IconButton>
         </a>
-        <IconButton aria-label="share">
-          <ShareIcon/>
-        </IconButton>
       </CardActions>
     </Card>
   );

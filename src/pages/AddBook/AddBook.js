@@ -19,8 +19,6 @@ import { useAddBookStyles } from './useAddBookStyles';
 
 export const BookContext = React.createContext({});
 
-const { Provider } = BookContext;
-
 const AddBook = (props) => {
 
   const {

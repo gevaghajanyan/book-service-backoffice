@@ -72,7 +72,7 @@ const Categories = (props) => {
       >
         {category => (
           <CategoriesRow
-            key={category.id}
+            key={category._id}
             onDelete={deleteCategory}
             {...category}
           />)}

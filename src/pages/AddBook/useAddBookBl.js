@@ -16,7 +16,10 @@ export const useAddBookBl = (props) => {
 
   const [image, setImage] = useState(null);
 
-  const rate = new Array(100).fill(null).map((_, index) => index);
+  const rate = new Array(100).fill(null).map((
+    _,
+    index,
+  ) => index);
 
   const uploadImage = useCallback(async (event) => {
     event.persist();
@@ -28,22 +31,12 @@ export const useAddBookBl = (props) => {
   const uploadFile = useCallback((event) => {
     event.persist();
     const { target: { files: [file] } } = event;
-    setFile(file?.name)
+    setFile(file?.name);
   }, []);
 
   const addBookSubmit = useCallback((event) => {
     event.persist();
     event.preventDefault();
-    const data = getFormValues(event, {
-      title: '',
-      pageCount: '',
-      published: '',
-      shortDescription: '',
-      longDescription: '',
-      categories: '',
-      rate: '',
-      image: '',
-    });
     httpService.post(addBookUrl(), new FormData(), {
       body: new FormData(event.target),
     });

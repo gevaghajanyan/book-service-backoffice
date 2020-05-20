@@ -5,9 +5,12 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 const CategoriesRow = memo(({
-  id,
+  _id: id,
   name,
-  onDelete = (event, id) => {
+  onDelete = (
+    event,
+    id,
+  ) => {
   },
 }) => {
   return (
